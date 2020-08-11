@@ -3,7 +3,6 @@ agent {
 docker {
 image 'bryandollery/terraform-packer-aws-alpine'
 args '-u root --entrypoint='
-
 }
 }
 environment {
@@ -16,12 +15,18 @@ stage('test'){
 steps{
 
 sh 'terrafrom init'
+
+} 
+}
+stage('plan'){
+steps{
 sh 'terraform paln'
+}
+}
+stage('apply'){
+steps{
 sh 'terraform apply'
 }
 }
 }
-
-
 }
-

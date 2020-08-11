@@ -19,16 +19,9 @@ sh 'terrafrom init'
 sh 'terraform paln'
 sh 'terraform apply'
 }
-
 }
-
-}
-
-}
-
 }
 
 
-
-
 }
+

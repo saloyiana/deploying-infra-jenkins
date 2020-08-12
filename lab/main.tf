@@ -173,7 +173,7 @@ resource "aws_instance" "webserver" {
   tags                        = module.tags_webserver.tags
 
 provisioner "local-exec" {
-    command = "echo ${aws_instance.webserver.public_ip} > ip.txt"
+    command = "echo ${aws_instance.webserver[count.index].public_ip} > ip.txt"
   }
 }
 

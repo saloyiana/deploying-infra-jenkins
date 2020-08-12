@@ -12,12 +12,13 @@ AWS_SECRET_ACCESS_KEY="${CREDS_PSW}"
 OWNER="sarah"
 AWS_PROFILE="kh-labs" 
 PROJECT_NAME="sarah-webserver"
+TF_NAMESPACE="sarah"
 }
 stages{
 stage('build'){
 steps{
 
-sh 'terraform init'
+sh "terraform init -backend-config="bucket=remote-state-$$TF_NAMESPACE" -backend-config="key=$$TF_NAMESPACE/labs/terraform.tfstate" -backend-config="dynamodb_table=locks-$$TF_NAMESPACE}""
 
 } 
 }

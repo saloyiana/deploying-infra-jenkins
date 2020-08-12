@@ -17,7 +17,9 @@ TF_NAMESPACE="sarah"
 stages{
 stage('build'){
 steps{
-
+sh 'rm -rf .terraform ssh'
+sh 'mkdir ssh'
+sh 'ssh-keygen -t rsa -f ./ssh/id_rsa -q -N ""'
 sh ' terraform init -backend-config="bucket=devops-bootcamp-remote-state-sarah" -backend-config="key=sarah/labs/terraform.tfstate" -backend-config="dynamodb_table=devops-bootcamp-locks-sarah"'
 } 
 }

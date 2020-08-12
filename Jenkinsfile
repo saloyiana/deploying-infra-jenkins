@@ -18,8 +18,7 @@ stages{
 stage('build'){
 steps{
 
-sh "terraform init -backend-config="bucket=remote-state-${TF_NAMESPACE}" -backend-config="key=${TF_NAMESPACE}/labs/terraform.tfstate" -backend-config="dynamodb_table=locks-${TF_NAMESPACE}""
-
+sh ' terraform init -backend-config="bucket=devops-bootcamp-remote-state-sarah" -backend-config="key=sarah/labs/terraform.tfstate" -backend-config="dynamodb_table=devops-bootcamp-locks-sarah"'
 } 
 }
 stage('plan'){

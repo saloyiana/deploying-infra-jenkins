@@ -172,12 +172,11 @@ resource "aws_instance" "webserver" {
   associate_public_ip_address = true
   tags                        = module.tags_webserver.tags
 
-provisioner "file" {
-    content     = "ip used (webserver): ${aws_instance.webserver[0].public_ip}"
-    destination = "/home/ubuntu/ip.txt"
+provisioner "local-exec" {
+    command = "echo ${aws_instance.example.public_ip} > ip.txt"
   }
-
 }
+
 resource "aws_instance" "webserver_2" {
   count                       = 1
   ami                         = data.aws_ami.latest_webserver.id

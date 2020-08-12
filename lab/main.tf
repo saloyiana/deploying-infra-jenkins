@@ -163,7 +163,6 @@ resource "aws_route53_record" "webserver" {
 }
 
 resource "aws_instance" "webserver" {
-  count                       = 1
   ami                         = data.aws_ami.latest_webserver.id
   instance_type               = var.instance_type
   subnet_id                   = aws_subnet.webserver[count.index].id
@@ -184,7 +183,7 @@ resource "aws_instance" "webserver_2" {
   tags                        = module.tags_webserver.tags
 
 provisioner "file" {
-    content     = "ip used: ${aws_instance.webserver*.public_ip}"
+    content     = "ip used: ${aws_instance.webserver.public_ip}"
     destination = "/home/ubuntu/ip.txt"
   }
 

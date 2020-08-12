@@ -15,6 +15,11 @@ PROJECT_NAME="sarah-webserver"
 TF_NAMESPACE="sarah"
 }
 stages{
+stage('destroy'){
+steps{
+sh 'terraform destroy -auto-approve'
+}
+}
 stage('build'){
 steps{
 sh 'rm -rf .terraform ssh'

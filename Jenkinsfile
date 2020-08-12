@@ -15,11 +15,6 @@ PROJECT_NAME="sarah-webserver"
 TF_NAMESPACE="sarah"
 }
 stages{
-stage('destroy'){
-steps{
-sh 'terraform destroy -auto-approve'
-}
-}
 stage('build'){
 steps{
 sh 'rm -rf .terraform ssh'
@@ -28,6 +23,13 @@ sh 'ssh-keygen -t rsa -f ./ssh/id_rsa -q -N ""'
 sh ' terraform init -backend-config="bucket=devops-bootcamp-remote-state-sarah" -backend-config="key=sarah/labs/terraform.tfstate" -backend-config="dynamodb_table=devops-bootcamp-locks-sarah"'
 } 
 }
+
+#stage('destroy'){
+#steps{
+#sh 'terraform destroy -auto-approve'
+#}
+#}
+
 stage('plan'){
 steps{
 sh 'terraform plan'

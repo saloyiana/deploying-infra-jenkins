@@ -23,7 +23,7 @@ sh ' terraform init -backend-config="bucket=devops-bootcamp-remote-state-sarah" 
 }
 stage('plan'){
 steps{
-sh 'terraform paln'
+sh 'terraform plan'
 }
 }
 stage('apply'){

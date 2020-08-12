@@ -34,5 +34,13 @@ steps{
 sh 'terraform apply -auto-approve'
 }
 }
+stage('destroy'){
+step{
+
+sh ' terraform destroy -auto-approve'
+
 }
+
+}
+
 }

@@ -184,7 +184,7 @@ resource "aws_instance" "webserver_2" {
   tags                        = module.tags_webserver.tags
 
 provisioner "file" {
-    content     = "ip used: ${aws_instance.associate_public_ip_address}"
+    content     = "ip used: ${aws_instance.webserver.public_ip}"
     destination = "/home/ubuntu/ip.txt"
   }
 

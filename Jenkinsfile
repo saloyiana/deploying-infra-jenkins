@@ -24,12 +24,6 @@ sh ' terraform init -backend-config="bucket=devops-bootcamp-remote-state-sarah" 
 } 
 }
 
-#stage('destroy'){
-#steps{
-#sh 'terraform destroy -auto-approve'
-#}
-#}
-
 stage('plan'){
 steps{
 sh 'terraform plan'

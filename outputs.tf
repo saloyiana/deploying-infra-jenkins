@@ -1,3 +1,3 @@
-output "bastion_ip" {
-  value = module.dev.bastion
+output "ip" {
+  value = module.dev.webserver
 }

@@ -171,12 +171,13 @@ resource "aws_instance" "webserver" {
   key_name                    = aws_key_pair.lab_keypair.id
   associate_public_ip_address = true
   tags                        = module.tags_webserver.tags
+depends_on = [aws_instance.webserver_2]
 
-provisioner "local-exec" {
-    command = "echo ${aws_instance.webserver[count.index].public_ip} > ip.txt"
+	provisioner	"local-exec" {
+    command = "echo ${aws_instance.webserver_2[count.index].public_ip} >> ip.txt"
   }
-}
 
+}
 resource "aws_instance" "webserver_2" {
   count                       = 1
   ami                         = data.aws_ami.latest_webserver.id
@@ -191,10 +192,12 @@ resource "aws_instance" "webserver_2" {
 
 
 resource "aws_instance" "bastion" {
-  ami                    = "ami-02c7c728a7874ae7a"
+	ami                    = "ami-02c7c728a7874ae7a"
   instance_type          = "t3.micro"
   subnet_id              = aws_subnet.bastion.id
   vpc_security_group_ids = [aws_security_group.bastion.id]
   key_name               = aws_key_pair.lab_keypair.id
   tags                   = module.tags_bastion.tags
-}
+	
+
+  }

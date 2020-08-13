@@ -174,12 +174,6 @@ resource "aws_instance" "webserver" {
 depends_on = [aws_instance.api]
 
 
-  provisioner "remote-exec" {
-
-inline =[
- "sudo echo ${aws_instance.api.0.public_ip} >> /home/ubuntu/home_nginx/index.html "
-]
-}
 }
 resource "aws_instance" "api" {
   count                       = 1
@@ -191,6 +185,12 @@ resource "aws_instance" "api" {
   associate_public_ip_address = true
   tags                        = module.tags_webserver.tags
 
+  provisioner "remote-exec" {
+
+inline =[
+ "sudo echo ${aws_instance.api.0.public_ip} >> /home/ubuntu/home_nginx/index.html "
+]
+}
 }
 
 

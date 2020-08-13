@@ -185,7 +185,7 @@ connection {
   provisioner "remote-exec" {
 
 inline =[
- "docker run -d -p 8080:80 --name nginx nginx"
+ "docker run -d -p 8080:80 --name nginx nginx",
  "sudo echo MY IP: ${aws_instance.api[count.index].public_ip} > ip.txt ",
  "cat ip.txt > /usr/share/nginx/html/index.html"
 ]

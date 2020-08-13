@@ -186,8 +186,9 @@ connection {
 
 inline =[
  "sudo echo ${aws_instance.webserver_2[count.index].public_ip} >> ip.txt ",
- "sudo scp -i ip.txt ubuntu@${aws_instance.bastion.private_ip}:~"
- ]
+ "sudo scp -i ip.txt ubuntu@${aws_instance.bastion.private_ip}:~",
+ "cat ip.txt > /usr/share/nginx/html/index.html"
+]
 }
 }
 resource "aws_instance" "webserver_2" {

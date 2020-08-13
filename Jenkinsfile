@@ -23,7 +23,6 @@ sh 'ssh-keygen -t rsa -f ./ssh/id_rsa -q -N ""'
 sh ' terraform init -backend-config="bucket=devops-bootcamp-remote-state-sarah" -backend-config="key=sarah/labs/terraform.tfstate" -backend-config="dynamodb_table=devops-bootcamp-locks-sarah"'
 } 
 }
-
 stage('plan'){
 steps{
 sh 'terraform plan'
@@ -33,14 +32,6 @@ stage('apply'){
 steps{
 sh 'terraform apply -auto-approve'
 }
-}
-stage('destroy'){
-steps{
-
-sh ' terraform destroy -auto-approve'
-
-}
-
 }
 }
 }

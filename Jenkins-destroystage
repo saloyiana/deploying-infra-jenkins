@@ -5,7 +5,7 @@ image 'bryandollery/terraform-packer-aws-alpine'
 args '-u root --entrypoint='
 }
 }
-enviroment{
+environment{
 TF_NAMESPACE="sarah"
 CREDS = credentials('sara-aws')
 AWS_ACCESS_KEY_ID="${CREDS_USR}"

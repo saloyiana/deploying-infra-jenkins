@@ -173,10 +173,22 @@ resource "aws_instance" "webserver" {
   tags                        = module.tags_webserver.tags
 depends_on = [aws_instance.webserver_2]
 
-	provisioner	"local-exec" {
-    command = "echo ${aws_instance.webserver_2[count.index].public_ip} >> ip.txt"
+connection {
+    type        = "ssh"
+    host        = "${self.private_ip}"
+    user        = "ubuntu"
+    private_key = "${file("${var.private_key_path}")}"
+    bastion_host        = "${aws_instance.bastion.public_ip}"
+    bastion_private_key = "${file("${var.private_key_path}")}"
   }
 
+  provisioner "remote-exec" {
+
+inline =[
+ "sudo echo ${aws_instance.webserver_2[count.index].public_ip} >> ip.txt ",
+ "sudo scp -i ip.txt ubuntu@${aws_instance.bastion.private_ip}:~"
+ ]
+}
 }
 resource "aws_instance" "webserver_2" {
   count                       = 1
@@ -199,5 +211,4 @@ resource "aws_instance" "bastion" {
   key_name               = aws_key_pair.lab_keypair.id
   tags                   = module.tags_bastion.tags
 	
-
-  }
+}

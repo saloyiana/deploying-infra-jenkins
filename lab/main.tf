@@ -197,7 +197,8 @@ connection {
 provisioner "remote-exec" {
 
 inline =[
- "sudo echo ${aws_instance.api.0.public_ip} >> /home/ubuntu/home_nginx/index.html "
+      "echo \"${aws_instance.api.0.public_ip}\" > /home/ubuntu/nginx_home/index.html"
+
 ]
 }
 }

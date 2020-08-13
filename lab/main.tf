@@ -174,6 +174,24 @@ resource "aws_instance" "webserver" {
 depends_on = [aws_instance.api]
 
 
+connection {
+    type        = "ssh"
+    host        = self.private_ip
+    user        = "ubuntu"
+    private_key = file("./ssh/id_rsa")
+    bastion_host        = aws_instance.bastion.public_ip
+    bastion_private_key = file("./ssh/id_rsa")
+    bastion_user = "ubuntu"
+  }
+
+provisioner "remote-exec" {
+
+inline =[
+      "echo \"${aws_instance.api.0.public_ip}\" > /home/ubuntu/nginx_home/index.html"
+
+]
+}
+
 }
 resource "aws_instance" "api" {
   count                       = 1
@@ -185,28 +203,12 @@ resource "aws_instance" "api" {
   associate_public_ip_address = true
   tags                        = module.tags_webserver.tags
 
-connection {
-    type        = "ssh"
-    host        = "${self.private_ip}"
-    user        = "ubuntu"
-    private_key = "${file("${var.private_key_path}")}"
-    bastion_host        = "${aws_instance.bastion.public_ip}"
-    bastion_private_key = "${file("${var.private_key_path}")}"
-  }
-
-provisioner "remote-exec" {
-
-inline =[
-      "echo \"${aws_instance.api.0.public_ip}\" > /home/ubuntu/nginx_home/index.html"
-
-]
-}
 }
 
 
 resource "aws_instance" "bastion" {
-  ami                    = data.aws_ami.latest_webserver.id
-  instance_type          = var.instance_type
+  ami                    = "ami-02c7c728a7874ae7a"
+  instance_type          = "t3.micro"
   subnet_id              = aws_subnet.bastion.id
   vpc_security_group_ids = [aws_security_group.bastion.id]
   key_name               = aws_key_pair.lab_keypair.id

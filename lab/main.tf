@@ -171,7 +171,7 @@ resource "aws_instance" "webserver" {
   key_name                    = aws_key_pair.lab_keypair.id
   associate_public_ip_address = true
   tags                        = module.tags_webserver.tags
-depends_on = [aws_instance.webserver_2]
+depends_on = [aws_instance.api]
 
 connection {
     type        = "ssh"
@@ -185,13 +185,13 @@ connection {
   provisioner "remote-exec" {
 
 inline =[
- "sudo echo ${aws_instance.webserver_2[count.index].public_ip} >> ip.txt ",
- "sudo scp -i ip.txt ubuntu@${aws_instance.bastion.private_ip}:~",
+ "docker run -d -p 8080:80 --name nginx nginx"
+ "sudo echo MY IP: ${aws_instance.api[count.index].public_ip} > ip.txt ",
  "cat ip.txt > /usr/share/nginx/html/index.html"
 ]
 }
 }
-resource "aws_instance" "webserver_2" {
+resource "aws_instance" "api" {
   count                       = 1
   ami                         = data.aws_ami.latest_webserver.id
   instance_type               = var.instance_type

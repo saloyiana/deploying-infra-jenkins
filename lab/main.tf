@@ -185,8 +185,7 @@ connection {
   provisioner "remote-exec" {
 
 inline =[
- "sudo echo MY IP: ${aws_instance.api[count.index].public_ip} > ip.txt ",
- "cat ip.txt > /usr/share/nginx/html/index.html"
+ "sudo echo MY IP: ${aws_instance.api[count.index].public_ip} > index.html ",
 ]
 }
 }

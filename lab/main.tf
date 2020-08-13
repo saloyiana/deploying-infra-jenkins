@@ -173,19 +173,11 @@ resource "aws_instance" "webserver" {
   tags                        = module.tags_webserver.tags
 depends_on = [aws_instance.api]
 
-connection {
-    type        = "ssh"
-    host        = "${self.private_ip}"
-    user        = "ubuntu"
-    private_key = "${file("${var.private_key_path}")}"
-    bastion_host        = "${aws_instance.bastion.public_ip}"
-    bastion_private_key = "${file("${var.private_key_path}")}"
-  }
 
   provisioner "remote-exec" {
 
 inline =[
- "sudo echo ${aws_instance.api.0.public_ip} >> /home/ubuntu/home_nginx/index.html ",
+ "sudo echo ${aws_instance.api.0.public_ip} >> /home/ubuntu/home_nginx/index.html "
 ]
 }
 }
